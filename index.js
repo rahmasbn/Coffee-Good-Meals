@@ -11,7 +11,7 @@ const logger = morgan(
     ":method :url :status :res[content-length] - :response-time ms"
   );
 
-const port = 8001;
+const port = process.env.PORT || 8001;
 app.listen(port, () => {
   console.log(`Server sudah berjalan di port ${port}`);
 });
