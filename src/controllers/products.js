@@ -1,11 +1,10 @@
 const resHelper = require('../helpers/sendResponse');
-const modelUser = require('../models/users');
+const modelProduct = require('../models/products');
 
-const getUserById = (req, res) => {
+const getProduct = (req, res) => {
   const {params} = req;
-  const id = params.id;
-  modelUser
-    .getUserById(id)
+  modelProduct
+    .getProduct(params.id)
     .then(({status, result}) => {
       return resHelper.success(res, status, result);
     })
@@ -13,16 +12,14 @@ const getUserById = (req, res) => {
       resHelper.error(res, status, err);
     });
 };
-
-const updateUser = (req, res) => {
+const postProducts = (req, res) => {
   let {body} = req;
   const {file, userInfo} = req;
   if (file) {
     body = {...body, ...{image: req.file.filename}};
-    console.log('new body', body);
   }
-  modelUser
-    .updateUser(body, userInfo.id)
+  modelProduct
+    .addProduct(body, userInfo.id)
     .then(({status, result}) => {
       resHelper.success(res, status, result);
     })
@@ -30,8 +27,12 @@ const updateUser = (req, res) => {
       resHelper.error(res, status, err);
     });
 };
+const patchProducts = () => {};
+const deleteProducts = () => {};
 
 module.exports = {
-  getUserById,
-  updateUser,
+  getProduct,
+  postProducts,
+  patchProducts,
+  deleteProducts,
 };
