@@ -9,8 +9,8 @@ const getUserById = (req, res) => {
     .then(({status, result}) => {
       resHelper.success(res, status, result);
     })
-    .catch(({status, result}) => {
-      resHelper.error(res, status, result);
+    .catch(({status, err}) => {
+      resHelper.error(res, status, err);
     });
 };
 
@@ -21,8 +21,8 @@ const updateUser = (req, res) => {
     .then(({status, result}) => {
       resHelper.success(res, status, result);
     })
-    .catch(({status, result}) => {
-      resHelper.error(res, status, result);
+    .catch(({status, err}) => {
+      resHelper.error(res, status, err);
     });
 };
 

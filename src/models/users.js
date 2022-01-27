@@ -9,7 +9,7 @@ const getUserById = (id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {errMsg: 'Something went wrong', err},
+          result: {err: 'Something went wrong'},
         });
       }
       if (result.length === 0)
@@ -30,7 +30,7 @@ const updateUser = (body, id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {errMsg: 'Something went wrong', err},
+          result: {err: 'Something went wrong.'},
         });
       }
       return resolve({
