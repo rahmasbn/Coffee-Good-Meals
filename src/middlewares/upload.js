@@ -4,11 +4,15 @@ const path = require('path');
 const maxfilesize = 2 * 1024 * 1024;
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/users/');
+    console.log('current route path, uplaod', req.originalUrl);
+    const folder = req.originalUrl;
+    const uploadPath = 'public' + folder;
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    const {payload} = req;
-    const id = payload.id;
+    const {userInfo} = req;
+    const id = userInfo.id;
+    console.log('fieldname:', file.fieldname);
     const fileName = `${file.fieldname}-${id}-${Date.now()}${path.extname(
       file.originalname,
     )}`;
@@ -36,7 +40,7 @@ const multerOption = {
   limits: {fileSize: maxfilesize},
 };
 
-const upload = multer(multerOption).single('profilePicture');
+const upload = multer(multerOption).single('image');
 const multerHandler = (req, res, next) => {
   upload(req, res, (err) => {
     console.log(req.payload);

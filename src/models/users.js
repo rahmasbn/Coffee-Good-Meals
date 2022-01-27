@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const {deleteImage} = require('../helpers/deleteImage');
 
 const getUserById = (id) => {
   return new Promise((resolve, reject) => {
@@ -24,8 +25,9 @@ const getUserById = (id) => {
 
 const updateUser = (body, id) => {
   return new Promise((resolve, reject) => {
-    const sqlUpdateUser = `UPDATE users set ? WHERE id = ?`;
-    db.query(sqlUpdateUser, [body, id], (err, result) => {
+    let imageToDel = '';
+    const sqlImg = `SELECT image from users WHERE id = ?`;
+    db.query(sqlImg, [id], (err, result) => {
       if (err) {
         console.log(err);
         return reject({
@@ -33,9 +35,23 @@ const updateUser = (body, id) => {
           result: {err: 'Something went wrong.'},
         });
       }
-      return resolve({
-        status: 200,
-        result: {msg: 'Update success.', data: body},
+      imageToDel = result[0].image;
+      const sqlUpdateUser = `UPDATE users set ? WHERE id = ?`;
+      db.query(sqlUpdateUser, [body, id], (err, result) => {
+        if (err) {
+          console.log(err);
+          return reject({
+            status: 500,
+            result: {err: 'Something went wrong.'},
+          });
+        }
+        if (body.image) {
+          deleteImage(imageToDel, 'users');
+        }
+        return resolve({
+          status: 200,
+          result: {msg: 'Update success.', data: body},
+        });
       });
     });
   });
