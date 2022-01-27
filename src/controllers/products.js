@@ -12,6 +12,19 @@ const getProduct = (req, res) => {
       resHelper.error(res, status, err);
     });
 };
+
+const searchProducts = (req, res) => {
+  const {query} = req;
+  modelProduct
+    .searchProducts(query)
+    .then(({status, result}) => {
+      return resHelper.success(res, status, result);
+    })
+    .catch(({status, err}) => {
+      resHelper.error(res, status, err);
+    });
+};
+
 const postProducts = (req, res) => {
   let {body} = req;
   const {file, userInfo} = req;
@@ -27,12 +40,25 @@ const postProducts = (req, res) => {
       resHelper.error(res, status, err);
     });
 };
+
 const patchProducts = () => {};
-const deleteProducts = () => {};
+
+const deleteProducts = (req, res) => {
+  const {userInfo, body} = req;
+  modelProduct
+    .deleteProduct(body.id, userInfo.id)
+    .then(({status, result}) => {
+      resHelper.success(res, status, result);
+    })
+    .catch(({status, err}) => {
+      resHelper.error(res, status, err);
+    });
+};
 
 module.exports = {
   getProduct,
   postProducts,
   patchProducts,
   deleteProducts,
+  searchProducts,
 };
