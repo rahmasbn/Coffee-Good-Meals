@@ -10,19 +10,19 @@ productsRouter.get('/:id', controllerProducts.getProduct);
 
 productsRouter.post(
   '/',
-  authorize.checkToken,
+  authorize.checkToken, authorize.authorizeAdmin,
   upload,
   controllerProducts.postProducts,
 );
 productsRouter.patch(
   '/',
-  authorize.checkToken,
+  authorize.checkToken, authorize.authorizeAdmin,
   upload,
   controllerProducts.patchProducts,
 );
 productsRouter.delete(
   '/',
-  authorize.checkToken,
+  authorize.checkToken, authorize.authorizeAdmin,
   controllerProducts.deleteProducts,
 );
 

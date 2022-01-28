@@ -5,11 +5,11 @@ const authController = require("../controllers/auth");
 const validate = require("../middlewares/validate");
 
 // /auth
-// register
 authRouter.post("/register", validate.register, authController.register);
-
-// login
 authRouter.post("/login", validate.login, authController.login);
+authRouter.post("/forgot-password", authController.forgotPassword)
+authRouter.post("/checkOTP", authController.checkOTP)
+authRouter.post("/reset-password", authController.resetPassword)
 
 
 module.exports = authRouter;

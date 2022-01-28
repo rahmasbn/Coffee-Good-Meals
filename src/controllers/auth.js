@@ -14,7 +14,7 @@ const register = (req, res) => {
       };
       responseHelper.success(res, status, {
         msg: "Registration Successful",
-        objResponse,
+        data: objResponse,
       });
     })
     .catch(({ status, err }) => {
@@ -25,20 +25,76 @@ const register = (req, res) => {
 };
 
 const login = (req, res) => {
-    const { body } = req;
-  
-    authModel
-      .login(body)
-      .then(({ status, result }) => {
-        responseHelper.success(res, status, {
-            msg: "Login Successful",
-            result,
-        });
-      })
-      .catch(({ status, err }) => {
-        responseHelper.error(res, status, err);
+  const { body } = req;
+
+  authModel
+    .login(body)
+    .then(({ status, result }) => {
+      responseHelper.success(res, status, {
+        msg: "Login Successful",
+        data: result,
       });
-  };
+    })
+    .catch(({ status, err }) => {
+      responseHelper.error(res, status, err);
+    });
+};
 
+const forgotPassword = (req, res) => {
+  const { body } = req;
 
-module.exports = { register, login };
+  authModel
+    .forgotPassword(body)
+    .then(({ status, result }) => {
+      responseHelper.success(res, status, {
+        msg: "OTP",
+        data: result,
+      });
+    })
+    .catch(({ status, err }) => {
+      console.log(err);
+      responseHelper.error(res, status, err);
+    });
+};
+
+const checkOTP = (req, res) => {
+  const { body } = req;
+
+  authModel
+    .checkOTP(body)
+    .then(({ status, result }) => {
+      responseHelper.success(res, status, {
+        msg: "OTP is valid",
+        data: result
+      });
+    })
+    .catch(({ status, err }) => {
+      console.log(err);
+      responseHelper.error(res, status, err);
+    });
+};
+
+const resetPassword = (req, res) => {
+  const { body } = req;
+
+  authModel
+    .resetPassword(body)
+    .then(({ status }) => {
+      responseHelper.success(res, status, {
+        msg: "Password updated successfully",
+        data: body.email,
+      });
+    })
+    .catch(({ status, err }) => {
+      console.log(err)
+      responseHelper.error(res, status, err);
+    });
+};
+
+module.exports = {
+  register,
+  login,
+  forgotPassword,
+  checkOTP,
+  resetPassword,
+};
