@@ -5,8 +5,15 @@ const controllerProducts = require('../controllers/products');
 const authorize = require('../middlewares/authorize');
 const upload = require('../middlewares/upload');
 
-productsRouter.get('/:id', authorize.checkToken, controllerProducts.getProduct);
-productsRouter.post('/', authorize.checkToken, upload, controllerProducts.postProducts);
+productsRouter.get('/search', controllerProducts.searchProducts);
+productsRouter.get('/:id', controllerProducts.getProduct);
+
+productsRouter.post(
+  '/',
+  authorize.checkToken,
+  upload,
+  controllerProducts.postProducts,
+);
 productsRouter.patch(
   '/',
   authorize.checkToken,
