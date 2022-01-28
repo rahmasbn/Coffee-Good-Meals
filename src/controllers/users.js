@@ -7,7 +7,7 @@ const getUserById = (req, res) => {
   modelUser
     .getUserById(id)
     .then(({status, result}) => {
-      resHelper.success(res, status, result);
+      return resHelper.success(res, status, result);
     })
     .catch(({status, err}) => {
       resHelper.error(res, status, err);
@@ -15,9 +15,14 @@ const getUserById = (req, res) => {
 };
 
 const updateUser = (req, res) => {
-  const {body, params} = req;
+  let {body} = req;
+  const {file, userInfo} = req;
+  if (file) {
+    body = {...body, ...{image: req.file.filename}};
+    console.log('new body', body);
+  }
   modelUser
-    .updateUser(body, params.id)
+    .updateUser(body, userInfo.id)
     .then(({status, result}) => {
       resHelper.success(res, status, result);
     })
