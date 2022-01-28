@@ -10,7 +10,6 @@ const logger = morgan(
   ':method :url :status :res[content-length] - :response-time ms',
 );
 
-app.use(express.static("public"));
 
 const port = process.env.PORT || 8001;
 app.listen(port, () => {
@@ -28,5 +27,6 @@ app.use(cors(corsOption));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(logger);
+app.use(express.static("public"));
 
 app.use(mainRouter);
