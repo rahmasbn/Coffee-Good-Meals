@@ -43,6 +43,7 @@ const multerOption = {
 const upload = multer(multerOption).single('image');
 const multerHandler = (req, res, next) => {
   upload(req, res, (err) => {
+    console.log('current route path, uplaod', req.originalUrl);
     console.log(req.payload);
     console.log('[inside] inside ulterHandler');
     console.log('current dirname', __dirname);
