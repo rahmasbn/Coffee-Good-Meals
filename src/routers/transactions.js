@@ -3,6 +3,12 @@ const transactionRouter = express.Router();
 const controllerTransaction = require('../controllers/transaction');
 const authorize = require('../middlewares/authorize');
 
+transactionRouter.get(
+  '/',
+  authorize.checkToken,
+  controllerTransaction.userTransaction,
+);
+
 transactionRouter.post(
   '/',
   authorize.checkToken,

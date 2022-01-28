@@ -36,4 +36,21 @@ const deleteTransaction = (req, res) => {
     });
 };
 
-module.exports = {addTransaction, updateTransaction, deleteTransaction};
+const userTransaction = (req, res) => {
+  const {query, userInfo} = req;
+  modelTransaction
+    .userTransaction(query, userInfo)
+    .then(({status, result}) => {
+      return resHelper.success(res, status, result);
+    })
+    .catch(({status, err}) => {
+      resHelper.error(res, status, err);
+    });
+};
+
+module.exports = {
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
+  userTransaction,
+};

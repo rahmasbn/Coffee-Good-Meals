@@ -2,6 +2,52 @@ const db = require('../config/db');
 const mysql = require('mysql');
 const {getTimeStamp} = require('../helpers/getTimeStamp');
 
+const userTransaction = (query, userInfo) => {
+  return new Promise((resolve, reject) => {
+    const {page, limit} = query;
+    const {id, roles} = userInfo;
+    const sqlPage = !page || page === '' ? '1' : page;
+    const sqlLimit = !limit || limit === '' ? '15' : limit;
+    const offset = (parseInt(sqlPage) - 1) * parseInt(sqlLimit);
+    let deleteAt = 't.deleted_customer_at';
+    let userId = 't.user_id';
+    if (roles === '2') {
+      deleteAt = 't.deleted_admin_at';
+      userId = 'p.user_id';
+    }
+    const sqlSelect = `SELECT t.id, t.total, p.image, p.name 
+    FROM transaction t JOIN transaction_products tp ON t.id = tp.id_transaction
+    JOIN products p ON p.id = tp.id_products
+    WHERE ? IS NOT NULL AND ? = ? 
+    ORDER BY t.created_at DESC
+    LIMIT ? OFFSET ?`;
+    const prepare = [
+      mysql.raw(deleteAt),
+      mysql.raw(userId),
+      id,
+      mysql.raw(sqlLimit),
+      offset,
+    ];
+    console.log('deleteAt, userId, id, sqlLimit, offset', deleteAt, userId, id, sqlLimit, offset);
+    db.query(sqlSelect, prepare, (err, result) => {
+      if (err) {
+        console.log(err);
+        return reject({
+          status: 500,
+          result: {err: 'Something went wrong'},
+        });
+      }
+      return resolve({
+        status: 200,
+        result: {
+          msg: 'Add transaction success.',
+          data: {result},
+        },
+      });
+    });
+  });
+};
+
 const addTransaction = (body) => {
   return new Promise((resolve, reject) => {
     const list = body.list;
@@ -108,4 +154,9 @@ const deleteTransaction = (ids, roles) => {
   });
 };
 
-module.exports = {addTransaction, updateTransaction, deleteTransaction};
+module.exports = {
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
+  userTransaction,
+};
