@@ -17,6 +17,7 @@ productsRouter.post(
 productsRouter.patch(
   '/',
   authorize.checkToken,
+  upload,
   controllerProducts.patchProducts,
 );
 productsRouter.delete(

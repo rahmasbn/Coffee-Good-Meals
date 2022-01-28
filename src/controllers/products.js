@@ -34,21 +34,40 @@ const postProducts = (req, res) => {
   modelProduct
     .addProduct(body, userInfo.id)
     .then(({status, result}) => {
-      resHelper.success(res, status, result);
+      return resHelper.success(res, status, result);
     })
     .catch(({status, err}) => {
       resHelper.error(res, status, err);
     });
 };
 
-const patchProducts = () => {};
+const patchProducts = (req, res) => {
+  console.log('controllers');
+  let {body} = req;
+  const {file} = req;
+  if (file) {
+    body = {...body, ...{image: file.filename}};
+  }
+  const id = body.id;
+  delete body.id;
+  console.log('controller id, body', body, id);
+  modelProduct
+    .patchProduct(body, id)
+    .then(({status, result}) => {
+      return resHelper.success(res, status, result);
+    })
+    .catch(({status, err}) => {
+      console.log('error', err);
+      resHelper.error(res, status, err);
+    });
+};
 
 const deleteProducts = (req, res) => {
   const {userInfo, body} = req;
   modelProduct
     .deleteProduct(body.id, userInfo.id)
     .then(({status, result}) => {
-      resHelper.success(res, status, result);
+      return resHelper.success(res, status, result);
     })
     .catch(({status, err}) => {
       resHelper.error(res, status, err);
