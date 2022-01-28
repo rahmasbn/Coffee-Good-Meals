@@ -25,7 +25,7 @@ const getUserById = (id) => {
 const updateUser = (body, id) => {
   return new Promise((resolve, reject) => {
     const sqlUpdateUser = `UPDATE users set ? WHERE id = ?`;
-    db.query(sqlUpdateUser, [body, id], (err, result) => {
+    db.query(sqlUpdateUser, [body, id], (err) => {
       if (err) {
         console.log(err);
         return reject({
