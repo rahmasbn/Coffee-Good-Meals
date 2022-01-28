@@ -15,12 +15,7 @@ const userTransaction = (query, userInfo) => {
       deleteAt = 't.deleted_admin_at';
       userId = 'p.user_id';
     }
-    const sqlSelect = `SELECT t.id, t.total, p.image, p.name 
-    FROM transaction t JOIN transaction_products tp ON t.id = tp.id_transaction
-    JOIN products p ON p.id = tp.id_products
-    WHERE ? IS NOT NULL AND ? = ? 
-    ORDER BY t.created_at DESC
-    LIMIT ? OFFSET ?`;
+
     const prepare = [
       mysql.raw(deleteAt),
       mysql.raw(userId),
@@ -28,8 +23,20 @@ const userTransaction = (query, userInfo) => {
       mysql.raw(sqlLimit),
       offset,
     ];
-    console.log('deleteAt, userId, id, sqlLimit, offset', deleteAt, userId, id, sqlLimit, offset);
-    db.query(sqlSelect, prepare, (err, result) => {
+    console.log(
+      'deleteAt, userId, id, sqlLimit, offset',
+      deleteAt,
+      userId,
+      id,
+      sqlLimit,
+      offset,
+    );
+
+    const sqlCount = `SELECT count(*) count
+    FROM transaction t JOIN transaction_products tp ON t.id = tp.id_transaction
+    JOIN products p ON p.id = tp.id_products
+    WHERE ? IS NOT NULL AND ? = ? `;
+    db.query(sqlCount, prepare, (err, result) => {
       if (err) {
         console.log(err);
         return reject({
@@ -37,12 +44,60 @@ const userTransaction = (query, userInfo) => {
           result: {err: 'Something went wrong'},
         });
       }
-      return resolve({
-        status: 200,
-        result: {
-          msg: 'Add transaction success.',
-          data: {result},
-        },
+      const totalData = result[0].count;
+      const nextOffset = parseInt(offset) + parseInt(sqlLimit);
+      let nextPage = '?';
+      let prevPage = '?';
+      const nPage = nextOffset >= totalData ? null : parseInt(sqlPage) + 1;
+      const pPage = sqlPage > 1 ? +sqlPage - 1 : null;
+      const totalPage = Math.ceil(totalData / parseInt(sqlLimit));
+      if (nPage == null) {
+        nextPage = null;
+      } else {
+        const nextCount = parseInt(sqlPage) + 1;
+        nextPage += 'page=' + nextCount;
+        if (limit) {
+          nextPage += '&limit=' + limit;
+        }
+      }
+      if (pPage == null) {
+        prevPage = null;
+      } else {
+        const prevCounter = parseInt(sqlPage) - 1;
+        prevPage += 'page=' + prevCounter;
+        if (limit) {
+          prevPage += '&limit=' + limit;
+        }
+      }
+      const meta = {
+        totalData,
+        prevPage,
+        page:sqlPage,
+        nextPage,
+        totalPage,
+      }
+      const sqlSelect = `SELECT t.id, t.total, p.image, p.name 
+      FROM transaction t JOIN transaction_products tp ON t.id = tp.id_transaction
+      JOIN products p ON p.id = tp.id_products
+      WHERE ? IS NOT NULL AND ? = ? 
+      ORDER BY t.created_at DESC
+      LIMIT ? OFFSET ?`;
+      db.query(sqlSelect, prepare, (err, result) => {
+        if (err) {
+          console.log(err);
+          return reject({
+            status: 500,
+            result: {err: 'Something went wrong'},
+          });
+        }
+        return resolve({
+          status: 200,
+          result: {
+            msg: 'Add transaction success.',
+            meta,
+            data: {result},
+          },
+        });
       });
     });
   });
