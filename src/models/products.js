@@ -203,7 +203,7 @@ const patchProduct = (body, id) => {
       }
       // console.log('catch 6');
       const sqlUpdate = `UPDATE products SET ? WHERE id = ?`;
-      db.query(sqlUpdate, [body, id], (err, result) => {
+      db.query(sqlUpdate, [body, id], (err) => {
         if (err) {
           console.log(err);
           return reject({
