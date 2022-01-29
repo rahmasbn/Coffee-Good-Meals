@@ -108,7 +108,6 @@ const forgotPassword = (body) => {
         if (err) return reject({ status: 500, err });
         const data = {
           email: email,
-          otp: otp,
         };
 
         resolve({ status: 200, result: data });
@@ -128,7 +127,6 @@ const checkOTP = (body) => {
         return reject({ status: 401, err: "Invalid OTP" });
       const data = {
         email: email,
-        otp: otp,
       };
       resolve({ status: 200, result: data });
     });
@@ -137,17 +135,17 @@ const checkOTP = (body) => {
 
 const resetPassword = (body) => {
   return new Promise((resolve, reject) => {
-    const { email, otp, password } = body;
-    const sqlQuery = `SELECT * FROM users WHERE email = ? AND otp = ?`;
+    const { email, password } = body;
+    const sqlQuery = `SELECT * FROM users WHERE email = ?`;
 
-    db.query(sqlQuery, [email, otp], (err) => {
+    db.query(sqlQuery, [email], (err) => {
       if (err) return reject({ status: 500, err });
 
-      const sqlUpdatePass = `UPDATE users SET password = ? WHERE email = ? AND otp = ?`;
+      const sqlUpdatePass = `UPDATE users SET password = ? WHERE email = ?`;
       bcrypt
         .hash(password, 10)
         .then((hashedPassword) => {
-          db.query(sqlUpdatePass, [hashedPassword, email, otp], (err) => {
+          db.query(sqlUpdatePass, [hashedPassword, email], (err) => {
             if (err) return reject({ status: 500, err });
 
             const sqlUpdateOTP = `UPDATE users SET otp = null WHERE email = ?`;
@@ -164,10 +162,22 @@ const resetPassword = (body) => {
   });
 };
 
+const logout = (token) => {
+  return new Promise((resolve, reject) => {
+    const sqlQuery = `INSERT INTO blacklist_token (token) VALUES (?)`;
+
+    db.query(sqlQuery, [token], (err, result) => {
+      if (err) return reject({ status: 500, err });
+      resolve({ status: 200, result });
+    });
+  });
+};
+
 module.exports = {
   register,
   login,
   forgotPassword,
   checkOTP,
   resetPassword,
+  logout,
 };

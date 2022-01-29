@@ -91,10 +91,26 @@ const resetPassword = (req, res) => {
     });
 };
 
+const logout = (req, res) => {
+  const token = req.header('x-access-token');
+  authModel
+    .logout(token)
+    .then(({status}) => {
+      return responseHelper.success(res, status, {
+        msg: "Logout successful"
+      });
+    })
+    .catch(({status, err}) => {
+      responseHelper.error(res, status, err);
+    });
+};
+
+
 module.exports = {
   register,
   login,
   forgotPassword,
   checkOTP,
   resetPassword,
+  logout,
 };
