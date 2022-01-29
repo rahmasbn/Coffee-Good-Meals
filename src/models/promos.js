@@ -68,6 +68,12 @@ const getPromoDetail = (id) => {
           result: {err: 'Something went wrong'},
         });
       }
+      if (result.length === 0) {
+        return reject({
+          status: 404,
+          result: {err: `Promo can't be found.`},
+        });
+      }
       const dateStart = formatDateDB(result[0].discount_start);
       const dateEnd = formatDateDB(result[0].discount_end);
       const data = {
