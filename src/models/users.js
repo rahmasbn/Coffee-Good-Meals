@@ -4,8 +4,8 @@ const bcrypt = require("bcrypt");
 
 const getUserById = (id) => {
   return new Promise((resolve, reject) => {
-    const sqlGetUser = `SELECT  id, display_name, first_name, last_name, email, 
-      address, gender, dob, image FROM users where id = ?`;
+    const sqlGetUser = `SELECT  id, display_name, first_name, last_name, email, phone, 
+    address, gender, dob, image, roles FROM users where id = ?`;
     db.query(sqlGetUser, [id], (err, result) => {
       if (err) {
         console.log(err);
@@ -91,7 +91,6 @@ const updatePassword = (body, id) => {
           .catch((err) => {
             reject({ status: 500, err });
           });
-
       } catch (err) {
         reject({ status: 500, err });
       }
