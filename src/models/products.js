@@ -167,11 +167,6 @@ const addProduct = (body, id) => {
           result: {err: 'Something went wrong'},
         });
       }
-      if (result.length === 0)
-        return resolve({
-          status: 404,
-          result: {errMsg: 'Data cannot be found.'},
-        });
       return resolve({
         status: 200,
         result: {msg: 'Add product success.', data: body},
@@ -211,7 +206,7 @@ const patchProduct = (body, id) => {
             result: {err: 'Something went wrong'},
           });
         }
-        if (body.image) {
+        if (imageToDel !== null) {
           deleteImage(imageToDel, 'products');
         }
         return resolve({
