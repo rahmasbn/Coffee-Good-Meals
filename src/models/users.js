@@ -98,8 +98,48 @@ const updatePassword = (body, id) => {
   });
 };
 
+const deletePhoto = (id) => {
+  return new Promise((resolve, reject) => {
+    const sqlImg = `SELECT image FROM users WHERE id = ?`;
+    db.query(sqlImg, [id], (err, result) => {
+      if (err) {
+        console.log(err);
+        return reject({
+          status: 500,
+          result: {err: 'Something went wrong.'},
+        });
+      }
+      if (result.length === 0) {
+        return reject({
+          status: 404,
+          result: {err: 'No Image to delete.'},
+        });
+      }
+      const imageToDel = result[0].image;
+      const sqlUpdate = `UPDATE users SET image = NULL WHERE id = ?`;
+      db.query(sqlUpdate, [id], (err) => {
+        if (err) {
+          console.log(err);
+          return reject({
+            status: 500,
+            result: {err: 'Something went wrong.'},
+          });
+        }
+        if (imageToDel !== null) {
+          deleteImage(imageToDel, 'users');
+        }
+        return resolve({
+          status: 200,
+          result: {msg: 'Image deleted.'},
+        });
+      });
+    });
+  });
+};
+
 module.exports = {
   getUserById,
   updateUser,
   updatePassword,
+  deletePhoto
 };

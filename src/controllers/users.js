@@ -50,8 +50,21 @@ const updatePassword = (req, res) => {
     });
 };
 
+const deletePhoto = (req, res) => {
+  const {userInfo} = req;
+  modelUser
+    .deletePhoto(userInfo.id)
+    .then(({status, result}) => {
+      resHelper.success(res, status, result);
+    })
+    .catch(({status, err}) => {
+      resHelper.error(res, status, err);
+    });
+};
+
 module.exports = {
   getUserById,
   updateUser,
   updatePassword,
+  deletePhoto,
 };
