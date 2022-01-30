@@ -45,7 +45,7 @@ const login = (body) => {
       if (result.length == 0)
         return reject({
           status: 401,
-          result: { errMsg: "Invalid Email/Password" },
+          err: "Invalid Email/Password"
         });
 
       try {
