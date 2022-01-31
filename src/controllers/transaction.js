@@ -2,9 +2,9 @@ const resHelper = require('../helpers/sendResponse');
 const modelTransaction = require('../models/transactions');
 
 const addTransaction = (req, res) => {
-  const {body} = req;
+  const {body, userInfo} = req;
   modelTransaction
-    .addTransaction(body)
+    .addTransaction(body, userInfo.id)
     .then(({status, result}) => {
       return resHelper.success(res, status, result);
     })
@@ -44,6 +44,7 @@ const userTransaction = (req, res) => {
       return resHelper.success(res, status, result);
     })
     .catch(({status, err}) => {
+      console.log('status', status);
       resHelper.error(res, status, err);
     });
 };

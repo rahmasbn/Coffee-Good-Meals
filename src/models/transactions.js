@@ -5,24 +5,20 @@ const {getTimeStamp} = require('../helpers/getTimeStamp');
 const userTransaction = (query, userInfo) => {
   return new Promise((resolve, reject) => {
     const {page, limit} = query;
-    const {id, roles} = userInfo;
+    let {id, roles} = userInfo;
+    console.log('userinfo', userInfo);
     const sqlPage = !page || page === '' ? '1' : page;
     const sqlLimit = !limit || limit === '' ? '15' : limit;
     const offset = (parseInt(sqlPage) - 1) * parseInt(sqlLimit);
     let deleteAt = 't.deleted_customer_at';
-    let userId = 't.user_id';
+    let userId = 't.user_id = ';
+    id = String(id);
     if (roles === '2') {
       deleteAt = 't.deleted_admin_at';
-      userId = 'p.user_id';
+      userId = 'p.user_id ';
+      id = 'IS NOT NULL';
     }
 
-    const prepare = [
-      mysql.raw(deleteAt),
-      mysql.raw(userId),
-      id,
-      mysql.raw(sqlLimit),
-      offset,
-    ];
     console.log(
       'deleteAt, userId, id, sqlLimit, offset',
       deleteAt,
@@ -31,11 +27,18 @@ const userTransaction = (query, userInfo) => {
       sqlLimit,
       offset,
     );
-
+    const prepare = [
+      mysql.raw(deleteAt),
+      mysql.raw(userId),
+      mysql.raw(id),
+      mysql.raw(sqlLimit),
+      offset,
+    ];
     const sqlCount = `SELECT count(*) count
-    FROM transaction t JOIN transaction_products tp ON t.id = tp.id_transaction
-    JOIN products p ON p.id = tp.id_products
-    WHERE ? IS NOT NULL AND ? = ? `;
+      FROM transaction t LEFT JOIN transaction_products tp ON tp.id = 
+      (SELECT id_transaction FROM transaction_products WHERE transaction_products.id_transaction = t.id LIMIT 1)
+      JOIN products p ON p.id = tp.id_products
+      WHERE ? IS NULL AND ? ? `;
     db.query(sqlCount, prepare, (err, result) => {
       if (err) {
         console.log(err);
@@ -76,10 +79,11 @@ const userTransaction = (query, userInfo) => {
         nextPage,
         totalPage,
       };
-      const sqlSelect = `SELECT t.id, t.total, p.image, p.name 
-      FROM transaction t JOIN transaction_products tp ON t.id = tp.id_transaction
+      const sqlSelect = `SELECT t.id, t.user_id, t.total, p.image, p.name 
+      FROM transaction t LEFT JOIN transaction_products tp ON tp.id = 
+      (SELECT id_transaction FROM transaction_products WHERE transaction_products.id_transaction = t.id LIMIT 1)
       JOIN products p ON p.id = tp.id_products
-      WHERE ? IS NOT NULL AND ? = ? 
+      WHERE ? IS NULL AND ? ? 
       ORDER BY t.created_at DESC
       LIMIT ? OFFSET ?`;
       db.query(sqlSelect, prepare, (err, result) => {
@@ -103,20 +107,20 @@ const userTransaction = (query, userInfo) => {
   });
 };
 const getStatistic = (query) => {
-  return new Promise((resolve, reject)=>{
+  return new Promise((resolve, reject) => {
     // const {type} = query;
     // if (type ==='monthly'){
-
     // }
-  })
+  });
 };
-const addTransaction = (body) => {
+const addTransaction = (body, id) => {
   return new Promise((resolve, reject) => {
     const list = body.list;
     delete body.list;
     const timeStamp = getTimeStamp();
     body = {
       ...body,
+      user_id: id,
       created_at: timeStamp,
     };
     const sqlAdd = `INSERT INTO transaction SET ?`;
