@@ -20,7 +20,7 @@ const addPromos = (body) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       return resolve({
@@ -45,7 +45,7 @@ const getListPromo = () => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
 
@@ -65,7 +65,7 @@ const getPromoDetail = (id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       if (result.length === 0) {
@@ -97,7 +97,7 @@ const updatePromo = (body, id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       const imageToDel = result[0].image;
@@ -107,7 +107,7 @@ const updatePromo = (body, id) => {
           console.log(err);
           return reject({
             status: 500,
-            result: {err: 'Something went wrong'},
+            result: {err: 'Something went wrong.'},
           });
         }
         if (imageToDel !== null) {
@@ -130,7 +130,7 @@ const deletePromos = (id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       const imageToDel = result[0].image;
@@ -142,7 +142,7 @@ const deletePromos = (id) => {
           console.log(err);
           return reject({
             status: 500,
-            result: {err: 'Something went wrong'},
+            result: {err: 'Something went wrong.'},
           });
         }
         if (imageToDel) deleteImage(imageToDel, 'promos');
