@@ -48,9 +48,22 @@ const userTransaction = (req, res) => {
     });
 };
 
+const getStatistic = (req, res) => {
+  const {query} = req;
+  modelTransaction
+    .getStatistic(query)
+    .then(({status, result}) => {
+      return resHelper.success(res, status, result);
+    })
+    .catch(({status, err}) => {
+      resHelper.error(res, status, err);
+    });
+};
+
 module.exports = {
   addTransaction,
   updateTransaction,
   deleteTransaction,
   userTransaction,
+  getStatistic,
 };

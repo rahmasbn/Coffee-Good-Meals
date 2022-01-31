@@ -41,7 +41,7 @@ const userTransaction = (query, userInfo) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       const totalData = result[0].count;
@@ -72,10 +72,10 @@ const userTransaction = (query, userInfo) => {
       const meta = {
         totalData,
         prevPage,
-        page:sqlPage,
+        page: sqlPage,
         nextPage,
         totalPage,
-      }
+      };
       const sqlSelect = `SELECT t.id, t.total, p.image, p.name 
       FROM transaction t JOIN transaction_products tp ON t.id = tp.id_transaction
       JOIN products p ON p.id = tp.id_products
@@ -87,13 +87,13 @@ const userTransaction = (query, userInfo) => {
           console.log(err);
           return reject({
             status: 500,
-            result: {err: 'Something went wrong'},
+            result: {err: 'Something went wrong.'},
           });
         }
         return resolve({
           status: 200,
           result: {
-            msg: 'Add transaction success.',
+            msg: 'List of user transaction.',
             meta,
             data: {result},
           },
@@ -102,7 +102,14 @@ const userTransaction = (query, userInfo) => {
     });
   });
 };
+const getStatistic = (query) => {
+  return new Promise((resolve, reject)=>{
+    // const {type} = query;
+    // if (type ==='monthly'){
 
+    // }
+  })
+};
 const addTransaction = (body) => {
   return new Promise((resolve, reject) => {
     const list = body.list;
@@ -118,7 +125,7 @@ const addTransaction = (body) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       const id_transaction = result.insertId;
@@ -140,7 +147,7 @@ const addTransaction = (body) => {
           console.log(err);
           return reject({
             status: 500,
-            result: {err: 'Something went wrong'},
+            result: {err: 'Something went wrong.'},
           });
         }
         return resolve({
@@ -163,7 +170,7 @@ const updateTransaction = (body, id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       return resolve({
@@ -197,7 +204,7 @@ const deleteTransaction = (ids, roles) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       console.log('result prepare', result, prepare);
@@ -214,4 +221,5 @@ module.exports = {
   updateTransaction,
   deleteTransaction,
   userTransaction,
+  getStatistic,
 };
