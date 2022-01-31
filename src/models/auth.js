@@ -135,17 +135,17 @@ const checkOTP = (body) => {
 
 const resetPassword = (body) => {
   return new Promise((resolve, reject) => {
-    const { email, password } = body;
-    const sqlQuery = `SELECT * FROM users WHERE email = ?`;
+    const { email, password, otp } = body;
+    const sqlQuery = `SELECT * FROM users WHERE email = ? AND otp = ?`;
 
-    db.query(sqlQuery, [email], (err) => {
+    db.query(sqlQuery, [email, otp], (err) => {
       if (err) return reject({ status: 500, err });
 
-      const sqlUpdatePass = `UPDATE users SET password = ? WHERE email = ?`;
+      const sqlUpdatePass = `UPDATE users SET password = ? WHERE email = ? AND otp =?`;
       bcrypt
         .hash(password, 10)
         .then((hashedPassword) => {
-          db.query(sqlUpdatePass, [hashedPassword, email], (err) => {
+          db.query(sqlUpdatePass, [hashedPassword, email, otp], (err) => {
             if (err) return reject({ status: 500, err });
 
             const sqlUpdateOTP = `UPDATE users SET otp = null WHERE email = ?`;
