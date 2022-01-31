@@ -11,7 +11,7 @@ const getProduct = (id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       if (result.length === 0)
@@ -21,7 +21,7 @@ const getProduct = (id) => {
         });
       return resolve({
         status: 200,
-        result: {msg: 'Get product detai.', data: result[0]},
+        result: {msg: 'Product detail.', data: result[0]},
       });
     });
   });
@@ -98,7 +98,7 @@ const searchProducts = (query) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       const totalData = result[0].count;
@@ -119,7 +119,7 @@ const searchProducts = (query) => {
           console.log(err);
           return reject({
             status: 500,
-            result: {err: 'Something went wrong'},
+            result: {err: 'Something went wrong.'},
           });
         }
         console.log('search result', result);
@@ -159,12 +159,12 @@ const addProduct = (body, id) => {
     }
     body = {...body, ...{user_id: id}};
     const sqlPost = `INSERT INTO products SET ?`;
-    db.query(sqlPost, [body], (err, result) => {
+    db.query(sqlPost, [body], (err) => {
       if (err) {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       return resolve({
@@ -185,7 +185,7 @@ const patchProduct = (body, id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       // console.log('catch 3')
@@ -203,7 +203,7 @@ const patchProduct = (body, id) => {
           console.log(err);
           return reject({
             status: 500,
-            result: {err: 'Something went wrong'},
+            result: {err: 'Something went wrong.'},
           });
         }
         if (imageToDel !== null) {
@@ -226,7 +226,7 @@ const deleteProduct = (id, user_id) => {
         console.log(err);
         return reject({
           status: 500,
-          result: {err: 'Something went wrong'},
+          result: {err: 'Something went wrong.'},
         });
       }
       const imageToDel = result[0].image;
@@ -238,7 +238,7 @@ const deleteProduct = (id, user_id) => {
           console.log(err);
           return reject({
             status: 500,
-            result: {err: 'Something went wrong'},
+            result: {err: 'Something went wrong.'},
           });
         }
         deleteImage(imageToDel, 'products');
