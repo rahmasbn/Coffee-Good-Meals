@@ -10,7 +10,7 @@ const register = (body, email) => {
       if (result.length >= 1)
         return reject({
           status: 400,
-          result: { errMsg: "Email is already registered" },
+          err: "Email is already registered",
         });
 
       const sqlQuery = "INSERT INTO users SET ?";
@@ -45,7 +45,7 @@ const login = (body) => {
       if (result.length == 0)
         return reject({
           status: 401,
-          err: "Invalid Email/Password"
+          err: "Invalid Email/Password",
         });
 
       try {
