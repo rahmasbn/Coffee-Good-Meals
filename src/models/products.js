@@ -218,7 +218,7 @@ const patchProduct = (body, id) => {
   });
 };
 
-const deleteProduct = (id, user_id) => {
+const deleteProduct = (id) => {
   return new Promise((resolve, reject) => {
     const sqlGetImage = 'SELECT image FROM products WHERE id = ?';
     db.query(sqlGetImage, [id], (err, result) => {
@@ -232,8 +232,9 @@ const deleteProduct = (id, user_id) => {
       const imageToDel = result[0].image;
       console.log('img to del', imageToDel);
       const dateStamp = getTimeStamp();
-      const sqlDelete = `UPDATE products SET deleted_at = ? WHERE user_id = ? AND id = ?`;
-      db.query(sqlDelete, [dateStamp, user_id, id], (err) => {
+      const sqlDelete = `UPDATE products SET deleted_at = ? WHERE id = ?`;
+      console.log('delete product', dateStamp, id);
+      db.query(sqlDelete, [dateStamp, id], (err) => {
         if (err) {
           console.log(err);
           return reject({
@@ -244,7 +245,7 @@ const deleteProduct = (id, user_id) => {
         deleteImage(imageToDel, 'products');
         return resolve({
           status: 200,
-          result: {msg: 'Product deleted.'},
+          result: {msg: 'Product deleted.', id},
         });
       });
     });

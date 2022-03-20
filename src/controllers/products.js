@@ -63,9 +63,9 @@ const patchProducts = (req, res) => {
 };
 
 const deleteProducts = (req, res) => {
-  const {userInfo, body} = req;
+  const {body} = req;
   modelProduct
-    .deleteProduct(body.id, userInfo.id)
+    .deleteProduct(body.id)
     .then(({status, result}) => {
       return resHelper.success(res, status, result);
     })
