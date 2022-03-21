@@ -133,8 +133,13 @@ const searchProducts = (query) => {
         } else {
           previousPage += '&page=' + pPage;
         }
+        const totalPage =
+          totalData < parseInt(sqlLimit)
+            ? 1
+            : Math.ceil(totalData / parseInt(sqlLimit));
         const meta = {
           totalData,
+          totalPage,
           nextPage,
           limit: sqlLimit,
           page: sqlPage,
