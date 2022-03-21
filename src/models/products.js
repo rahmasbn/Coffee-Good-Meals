@@ -30,6 +30,7 @@ const getProduct = (id) => {
 const searchProducts = (query) => {
   return new Promise((resolve, reject) => {
     const {keyword, category, orderBy, sort, page, limit} = query;
+    console.log(query);
     let nextPage = '?';
     let previousPage = '?';
     let offset = '';
@@ -43,9 +44,8 @@ const searchProducts = (query) => {
     let sqlSort = sort;
     let sqlLimit = limit;
     let sqlPage = page;
-
     if (sqlOrderBy !== '' && typeof sqlOrderBy !== 'undefined') {
-      if (typeof sqlSort !== 'undefined') {
+      if (sqlSort) {
         sqlSort = sqlSort.toLocaleLowerCase() === 'desc' ? ' DESC' : ' ASC';
       } else {
         sqlSort = ' ASC';
@@ -64,6 +64,7 @@ const searchProducts = (query) => {
       }
     } else {
       sqlOrderBy = 'p.created_at';
+      sqlSort = ' ASC';
     }
     if (!sqlLimit) {
       sqlLimit = '12';
@@ -122,7 +123,6 @@ const searchProducts = (query) => {
             result: {err: 'Something went wrong.'},
           });
         }
-        console.log('search result', result);
         if (nPage == null) {
           nextPage = null;
         } else {
@@ -145,6 +145,7 @@ const searchProducts = (query) => {
           page: sqlPage,
           previousPage,
         };
+        // console.log('search result', result, meta);
         const results = {
           msg: 'Search result',
           meta,
