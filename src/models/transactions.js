@@ -72,6 +72,7 @@ const userTransaction = (query, userInfo) => {
           prevPage += '&limit=' + limit;
         }
       }
+      
       const meta = {
         totalData,
         prevPage,
