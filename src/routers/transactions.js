@@ -9,12 +9,12 @@ transactionRouter.get(
   controllerTransaction.userTransaction,
 );
 
-// transactionRouter.get(
-//   '/statistic',
-//   authorize.checkToken,
-//   authorize.authorizeAdmin,
-//   controllerTransaction.getStatistic,
-// );
+transactionRouter.get(
+  '/statistic',
+  authorize.checkToken,
+  authorize.authorizeAdmin,
+  controllerTransaction.getStatistic,
+);
 
 transactionRouter.post(
   '/',

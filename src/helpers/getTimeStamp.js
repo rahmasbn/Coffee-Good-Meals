@@ -1,6 +1,6 @@
-const getTimeStamp = () => {
+const getTimeStamp = (today = new Date()) => {
   console.log('timestamp here');
-  const today = new Date();
+  // const today = new Date();
   let dd = today.getDate();
   let mm = today.getMonth() + 1;
   const yyyy = today.getFullYear();
