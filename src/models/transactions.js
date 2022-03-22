@@ -149,6 +149,7 @@ const getStatistic = (query) => {
       ];
       // var d = new Date(dateString);
       // var dayName = days[d.getDay()];
+      console.log(result);
       console.log(typeof result[0].date, result[0].date);
       for (let i = 0; i < 7; i++) {
         let day = new Date(startDate);
@@ -161,7 +162,7 @@ const getStatistic = (query) => {
           data.push({
             date: formatDate,
             day: dayName,
-            income: result[x].total,
+            income: parseInt(result[x].total),
           });
           x++;
         } else {
