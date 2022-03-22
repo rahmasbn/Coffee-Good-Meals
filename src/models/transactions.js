@@ -1,6 +1,8 @@
 const db = require('../config/db');
 const mysql = require('mysql');
 const {getTimeStamp} = require('../helpers/getTimeStamp');
+const {getToday} = require('../helpers/getToday');
+const {formatDateDB} = require('../helpers/formatDateDB');
 
 const userTransaction = (query, userInfo) => {
   return new Promise((resolve, reject) => {
@@ -72,7 +74,7 @@ const userTransaction = (query, userInfo) => {
           prevPage += '&limit=' + limit;
         }
       }
-      
+
       const meta = {
         totalData,
         prevPage,
@@ -107,22 +109,96 @@ const userTransaction = (query, userInfo) => {
     });
   });
 };
+
 const getStatistic = (query) => {
   return new Promise((resolve, reject) => {
-    // const {type} = query;
-    // if (type ==='monthly'){
-    // }
+    console.log(query);
+    const mode = query.mode || 'daily';
+    console.log(mode);
+    // let sqlGet = '';
+    let prepare = [];
+    // if (mode === 'daily') {
+    const endDate = getToday();
+    let tmpDate = new Date(getToday());
+    tmpDate.setDate(tmpDate.getDate() - 7);
+    const startDate = formatDateDB(tmpDate);
+    prepare.push(startDate);
+    prepare.push(endDate);
+    console.log('start, end', startDate, endDate);
+    const sqlGet = `SELECT COALESCE(SUM(total), 0) total, date 
+      FROM transaction 
+      WHERE date between ? AND ? GROUP BY date ORDER BY date`;
+    db.query(sqlGet, prepare, (err, result) => {
+      if (err) {
+        console.log(err);
+        return reject({
+          status: 500,
+          result: {err: 'Something went wrong.'},
+        });
+      }
+      let x = 0;
+      let data = [];
+      const days = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+      ];
+      // var d = new Date(dateString);
+      // var dayName = days[d.getDay()];
+      console.log(typeof result[0].date, result[0].date);
+      for (let i = 0; i < 7; i++) {
+        let day = new Date(startDate);
+        day.setDate(day.getDate() + i);
+        const formatDate = formatDateDB(day);
+        const formatDataDate = formatDateDB(result[x].date);
+        console.log('a, b', formatDate, formatDataDate);
+        if (formatDate == formatDataDate) {
+          const dayName = days[day.getDay()];
+          data.push({
+            date: formatDate,
+            day: dayName,
+            income: result[x].total,
+          });
+          x++;
+        } else {
+          const dayName = days[day.getDay()];
+          data.push({
+            date: formatDate,
+            day: dayName,
+            income: 0,
+          });
+        }
+        if (x == result.length) {
+          break;
+        }
+      }
+      console.log(data);
+      return resolve({
+        status: 200,
+        result: {
+          msg: 'Add transaction success.',
+          result: data,
+        },
+      });
+    });
   });
 };
+
 const addTransaction = (body, id) => {
   return new Promise((resolve, reject) => {
     const list = body.list;
     delete body.list;
     const timeStamp = getTimeStamp();
+    const date = getToday();
     body = {
       ...body,
       user_id: id,
       created_at: timeStamp,
+      date,
     };
     const sqlAdd = `INSERT INTO transaction SET ?`;
     db.query(sqlAdd, [body], (err, result) => {
