@@ -37,7 +37,7 @@ const addPromos = (body) => {
 const getListPromo = () => {
   return new Promise((resolve, reject) => {
     const today = getToday();
-    const sqlGetList = `SELECT id, name, description, code, discount, image, R, X, XL, dine_in, take_away, home_delivery FROM promo
+    const sqlGetList = `SELECT id, id_category, name, description, code, discount, image, R, X, XL, dine_in, take_away, home_delivery FROM promo
       WHERE discount_start < ? AND discount_end > ? AND deleted_at IS NULL
       ORDER BY created_at DESC`;
     db.query(sqlGetList, [today, today], (err, result) => {
@@ -56,7 +56,7 @@ const getListPromo = () => {
 
 const getPromoDetail = (id) => {
   return new Promise((resolve, reject) => {
-    const sqlGetList = `SELECT id, name, description, code, 
+    const sqlGetList = `SELECT id, id_category, name, description, code, 
     discount, discount_start, discount_end, image, R, X, XL, dine_in, take_away, home_delivery
     FROM promo
     WHERE id = ? AND deleted_at IS NULL
