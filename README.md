@@ -6,12 +6,7 @@ Web Application to manage products and transactions for customer based on React 
 ![coffee](https://drive.google.com/file/d/10kTxAo6zr33NX9Xhh8Bb3GN4vp57Zr-M/view?usp=sharing)
 <br />
 
-[![react-router-dom](https://img.shields.io/npm/v/react-router-dom?label=react-router-dom)](https://www.npmjs.com/package/react-router-dom)
-[![axios](https://img.shields.io/npm/v/axios?label=axios)](https://www.npmjs.com/package/axios)
-[![chart.js](https://img.shields.io/npm/v/chart.js?label=chart.js)](https://www.npmjs.com/package/chart.js)
-[![bootstrap](https://img.shields.io/npm/v/bootstrap?label=bootstrap)](https://www.npmjs.com/package/react-bootstrap)
-[![moment](https://img.shields.io/npm/v/moment?label=moment)](https://www.npmjs.com/package/moment)
-[![redux](https://img.shields.io/npm/v/redux?label=redux)](https://www.npmjs.com/package/redux)
+
 <br />
 
 ## API Reference
