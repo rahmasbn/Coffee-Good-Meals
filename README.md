@@ -39,10 +39,6 @@ Web Application to manage products and transactions for customer based on React 
 https://aws-coffee-good-meals.herokuapp.com/
 
 
-## Documentation
-
-[Documentation](https://arkacoffeeshop.netlify.app/)
-
 
 ## Features
 
