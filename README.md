@@ -3,7 +3,7 @@
 
 Web Application to manage products and transactions for customer based on React Js.
 <br />
-![coffee](https://drive.google.com/file/d/10kTxAo6zr33NX9Xhh8Bb3GN4vp57Zr-M/view?usp=sharing)
+![image](https://drive.google.com/uc?export=view&id=10kTxAo6zr33NX9Xhh8Bb3GN4vp57Zr-M)
 <br />
 
 
@@ -57,7 +57,6 @@ https://aws-coffee-good-meals.herokuapp.com/
 
 ## Authors
 
-- [@rahmasbn](https://github.com/rahmasbn)
 - [@okidwijaya](https://github.com/okidwijaya)
 - [@ahmadfauzan](https://github.com/special-snowflake)
 - [@mahendraiqbal](https://github.com/mahendraiqbal)
