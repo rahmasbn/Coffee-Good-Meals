@@ -58,15 +58,19 @@ Start the server
 
 ## API Reference
 
-#### Get all products
+#### Get all promos
 
 ```http
-  GET /products
+  GET /promos
+```
+```http
+  GET /products/${id}
 ```
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
+| `getPromos` | `function` | This can get all of promo in product |
+| `getDetailProduct` | `function` | This can get the detail of product |
 
 
 ## Deployment
