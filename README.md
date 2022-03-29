@@ -14,6 +14,19 @@ Web Application to manage products and transactions for customer based on React 
 
 <br />
 
+## Features
+
+- Add Products
+- Edit Products
+- Add Promo
+- Edit Promo
+- Sign Up
+- Sign In
+- Forgot Password
+- Update Profile
+- Transactions
+- History Management
+
 
 ## How To Install
 
@@ -64,20 +77,6 @@ https://aws-coffee-good-meals.herokuapp.com/
 ## Postman Collection
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3e8a4e964a3e2a1e0308?action=collection%2Fimport#?env%5BCoffee_Meals%5D=W3sia2V5IjoiSE9TVCIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX0seyJrZXkiOiJUT0tFTiIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX1d)
-
-## Features
-
-- Add Products
-- Edit Products
-- Add Promo
-- Edit Promo
-- Sign Up
-- Sign In
-- Forgot Password
-- Update Profile
-- Transactions
-- History Management
-
 
 
 ## Authors
