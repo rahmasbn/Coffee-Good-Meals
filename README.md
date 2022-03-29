@@ -14,6 +14,35 @@ Web Application to manage products and transactions for customer based on React 
 
 <br />
 
+
+## How To Install
+
+Clone the project
+
+```bash
+  git clone https://github.com/rahmasbn/Coffee-Good-Meals
+```
+
+Go to the project directory
+
+```bash
+  cd vehicle_rental
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+
+
 ## API Reference
 
 #### Get all products
@@ -25,18 +54,6 @@ Web Application to manage products and transactions for customer based on React 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `api_key` | `string` | **Required**. Your API key |
-
-#### Get item
-
-```http
-  GET /products/detail/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
-
-
 
 
 ## Deployment
