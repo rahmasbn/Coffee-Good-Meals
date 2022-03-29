@@ -5,16 +5,16 @@ Web Application to manage products and transactions for customer based on React 
 <br />
 ![image](https://drive.google.com/uc?export=view&id=10kTxAo6zr33NX9Xhh8Bb3GN4vp57Zr-M)
 <br />
-
+[![axios](https://img.shields.io/npm/v/express?label=express)](https://www.npmjs.com/package/express)
 
 <br />
 
 ## API Reference
 
-#### Get all items
+#### Get all products
 
 ```http
-  GET /products/favorite
+  GET /products
 ```
 
 | Parameter | Type     | Description                |
