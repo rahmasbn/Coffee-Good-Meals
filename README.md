@@ -6,6 +6,11 @@ Web Application to manage products and transactions for customer based on React 
 ![image](https://drive.google.com/uc?export=view&id=10kTxAo6zr33NX9Xhh8Bb3GN4vp57Zr-M)
 <br />
 [![axios](https://img.shields.io/npm/v/express?label=express)](https://www.npmjs.com/package/express)
+[![axios](https://img.shields.io/npm/v/jsonwebtoken?label=jsonwebtoken)](https://www.npmjs.com/package/jsonwebtoken)
+[![axios](https://img.shields.io/npm/v/multer?label=multer)](https://www.npmjs.com/package/multer)
+[![axios](https://img.shields.io/npm/v/nodemailer?label=nodemailer)](https://www.npmjs.com/package/nodemailer)
+[![axios](https://img.shields.io/npm/v/morgan?label=morgan)](https://www.npmjs.com/package/morgan)
+[![axios](https://img.shields.io/npm/v/bcrypt?label=bcrypt)](https://www.npmjs.com/package/bcrypt)
 
 <br />
 
